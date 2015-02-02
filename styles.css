@@ -1,0 +1,19 @@
+.xml {
+  list-style: none;
+  background-color:#EEEEEE;
+  text-decoration: none;
+  margin: 0;
+  font-family: Courier New,Monaco;
+  padding: 0px 0px 0px 40px;
+}
+
+div.hidden {
+  display: none;
+}
+
+span.xml-element {
+  color: #0000FF;
+}
+span.xml-attribute {
+  color: #F00;
+}
