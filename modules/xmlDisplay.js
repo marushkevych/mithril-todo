@@ -1,9 +1,9 @@
 var space = String.fromCharCode(160);
 var doubleSpace = space + space;
 
-//var controller = exports.controller = function(){
+var controller = exports.controller = function(){
 //    return require('../xml');
-//}
+}
 
 var view = exports.view = function(node){
     node.nodes = node.nodes || [];
@@ -21,11 +21,11 @@ var view = exports.view = function(node){
         m('li', [
             openingTag(node, toggleListener),
             node.value,
-//            m('div', {class: clazz},[
+            m('div', {class: clazz},[
                 node.nodes.map(function(node){
                     return view(node);
                 }),
-//            ]),
+            ]),
             closingTag(node)
         ])
     ]);
