@@ -2,25 +2,17 @@ var space = String.fromCharCode(160);
 var doubleSpace = space + space;
 
 var controller = exports.controller = function(){
-//    return require('../xml');
 }
 
 var view = exports.view = function(node){
     node.nodes = node.nodes || [];
     node.attrs = node.attrs || {};
     var clazz = node.collapsed ? 'hidden' : "";
-//    var clazz = '';
-    var toggleListener = function(){
-        node.collapsed = node.collapsed ? false : true;
-        console.log("clicked", node.name, node.collapsed)
-//        clazz = node.collapsed ? 'hidden' : "";
-        clazz = 'hidden';
         
-    };
     return m('ul', {class: 'xml'},[
         m('li', [
-            openingTag(node, toggleListener),
-            node.value,
+            openingTag(node),
+            !hasNodes(node) ? node.value :
             m('div', {class: clazz},[
                 node.nodes.map(function(node){
                     return view(node);
@@ -32,13 +24,11 @@ var view = exports.view = function(node){
 };
 
 
-var openingTag = function(node, toggleListener){
+var openingTag = function(node){
     var clazz = "xml-element";
     var cursor = hasNodes(node) ? 'pointer' : "";
     var toggle = function(){
-        if(hasNodes(node)){
-            toggleListener();
-        }
+        node.collapsed = node.collapsed ? false : true;
     };
     return m("span[style='cursor:"+cursor+"']", {class: clazz, onclick: toggle},[
         getIcon(node),
