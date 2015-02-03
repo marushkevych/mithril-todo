@@ -4,9 +4,14 @@ var doubleSpace = space + space;
 var controller = exports.controller = function(){
 }
 
-var view = exports.view = function(node){
+var view = exports.view = function(ctrl){
+    var node = ctrl.xml;
     node.nodes = node.nodes || [];
     node.attrs = node.attrs || {};
+    // is collapsed by default
+    if(node.collapsed === undefined && ctrl.collapse){
+        node.collapsed = true;
+    }
     var clazz = node.collapsed ? 'hidden' : "";
         
     return m('ul', {class: 'xml'},[
@@ -14,8 +19,8 @@ var view = exports.view = function(node){
             openingTag(node),
             !hasNodes(node) ? node.value :
             m('div', {class: clazz},[
-                node.nodes.map(function(node){
-                    return view(node);
+                node.nodes.map(function(child){
+                    return view({xml:child, collapse:ctrl.collapse});
                 }),
             ]),
             closingTag(node)
@@ -38,7 +43,8 @@ var openingTag = function(node){
                 return " " + key+"="+'"'+value+'"';
             })
         ]),
-        hasChildren(node)? ">" : "/>"
+        hasChildren(node)? ">" : "/>",
+        hasNodes(node) && node.collapsed ? doubleSpace + "..." : ""
     ]);
 };
 
@@ -56,5 +62,10 @@ var hasNodes = function(node){
 };
 
 var getIcon = function(node){
+    if(hasNodes(node)){
+        return node.collapsed ? '+ ' : '- ';
+    } else {
+        return doubleSpace;
+    }
     return hasNodes(node) ? '+ ' : doubleSpace;
 };

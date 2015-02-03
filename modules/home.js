@@ -43,7 +43,7 @@ var home = module.exports = {
             }),
             m('button', { onclick: ctrl.redirectToDashboard}, 'show user'),
             m("h2", "Xml display"),
-            xmlDisplay.view(xml)
+            xmlDisplay.view({xml: xml, collapse:true})
             
         ]);
                 

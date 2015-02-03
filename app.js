@@ -5,6 +5,9 @@ var home = require('./modules/home');
 var dashboard = require('./modules/dashboard');
 var footer = require('./modules/footer');
 
+var xmlDisplay = require('./modules/xmlDisplay');
+var xml = require('./xml');
+
 var ParentPage = function(childComponent){
     this.controller = function(){
         this.childController = new childComponent.controller();
@@ -22,10 +25,16 @@ var ParentPage = function(childComponent){
 //setup routes to start w/ the `#` symbol
 m.route.mode = "hash";
 
-m.route(document.body, "/", {
-    "/": new ParentPage(home),
-    "/todo": new ParentPage(todo),
-    "/dashboard/:userID": new ParentPage(dashboard),
-});
+//m.route(document.body, "/", {
+//    "/": new ParentPage(home),
+//    "/todo": new ParentPage(todo),
+//    "/dashboard/:userID": new ParentPage(dashboard),
+//});
 
+m.module(document.body, {
+    controller: function(){
+        return {xml: xml, collapse:true};
+    }, 
+    view: xmlDisplay.view
+});
 
